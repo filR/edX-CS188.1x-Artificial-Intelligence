@@ -72,6 +72,27 @@ def tinyMazeSearch(problem):
     w = Directions.WEST
     return  [s, s, w, s, w, w, s, w]
 
+def generic_search(problem, fringe, add_to_fringe_fn):
+    closed = set()
+    start = (problem.getStartState(), 0, [])  # (node, cost, path)
+    add_to_fringe_fn(fringe, start, 0)
+
+    while not fringe.isEmpty():
+        (node, cost, path) = fringe.pop()
+
+        if problem.isGoalState(node):
+            return path
+
+        if not node in closed:
+            closed.add(node)
+
+            for child_node, child_action, child_cost in problem.getSuccessors(node):
+                new_cost = cost + child_cost
+                new_path = path + [child_action]
+                new_state = (child_node, new_cost, new_path)
+                add_to_fringe_fn(fringe, new_state, new_cost)
+
+
 def depthFirstSearch(problem):
     """
     Search the deepest nodes in the search tree first.
@@ -86,65 +107,31 @@ def depthFirstSearch(problem):
     print "Is the start a goal?", problem.isGoalState(problem.getStartState())
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
     """
-    closed = set()
     fringe = util.Stack()
-    fringe.push((problem.getStartState(), []))  # node, path
+    def add_to_fringe_fn(fringe, node, cost):
+        fringe.push(node)
 
-    while not fringe.isEmpty():
-        (node, path) = fringe.pop()
-
-        if problem.isGoalState(node):
-            return path
-
-        if not node in closed:
-            closed.add(node)
-
-            for child_node, child_action, child_cost in problem.getSuccessors(node):
-                new_path = path + [child_action]
-                fringe.push((child_node, new_path))
+    return generic_search(problem, fringe, add_to_fringe_fn)
 
 
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
-    closed = set()
-    fringe = util.Queue()  # the only difference to DFS
-    fringe.push((problem.getStartState(), []))  # node, path
+    fringe = util.Queue()
+    def add_to_fringe_fn(fringe, node, cost):
+        fringe.push(node)
 
-    while not fringe.isEmpty():
-        (node, path) = fringe.pop()
-
-        if problem.isGoalState(node):
-            return path
-
-        if not node in closed:
-            closed.add(node)
-
-            for child_node, child_action, child_cost in problem.getSuccessors(node):
-                new_path = path + [child_action]
-                fringe.push((child_node, new_path))
+    return generic_search(problem, fringe, add_to_fringe_fn)
 
 
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
-    closed = set()
-    fringe = util.PriorityQueue()  # difference 1 to BFS
-    fringe.push((problem.getStartState(), 0, []), 0)  # node, cost, path
+    fringe = util.PriorityQueue()
+    def add_to_fringe_fn(fringe, node, cost):
+        fringe.push(node, cost)
 
-    while not fringe.isEmpty():
-        (node, cost, path) = fringe.pop()
-
-        if problem.isGoalState(node):
-            return path
-
-        if not node in closed:
-            closed.add(node)
-
-            for child_node, child_action, child_cost in problem.getSuccessors(node):
-                new_cost = cost + child_cost  # difference 2 to BFS
-                new_path = path + [child_action]
-                fringe.push((child_node, new_cost, new_path), new_cost)
+    return generic_search(problem, fringe, add_to_fringe_fn)
 
 
 
