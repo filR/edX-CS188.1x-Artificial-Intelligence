@@ -108,8 +108,8 @@ def depthFirstSearch(problem):
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
     """
     fringe = util.Stack()
-    def add_to_fringe_fn(fringe, node, cost):
-        fringe.push(node)
+    def add_to_fringe_fn(fringe, state, cost):
+        fringe.push(state)
 
     return generic_search(problem, fringe, add_to_fringe_fn)
 
@@ -118,8 +118,8 @@ def depthFirstSearch(problem):
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     fringe = util.Queue()
-    def add_to_fringe_fn(fringe, node, cost):
-        fringe.push(node)
+    def add_to_fringe_fn(fringe, state, cost):
+        fringe.push(state)
 
     return generic_search(problem, fringe, add_to_fringe_fn)
 
@@ -128,8 +128,8 @@ def breadthFirstSearch(problem):
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     fringe = util.PriorityQueue()
-    def add_to_fringe_fn(fringe, node, cost):
-        fringe.push(node, cost)
+    def add_to_fringe_fn(fringe, state, cost):
+        fringe.push(state, cost)
 
     return generic_search(problem, fringe, add_to_fringe_fn)
 
@@ -144,8 +144,12 @@ def nullHeuristic(state, problem=None):
 
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    fringe = util.PriorityQueue()
+    def add_to_fringe_fn(fringe, state, cost):
+        new_cost = cost + heuristic(state[0], problem)
+        fringe.push(state, new_cost)
+
+    return generic_search(problem, fringe, add_to_fringe_fn)
 
 
 # Abbreviations
