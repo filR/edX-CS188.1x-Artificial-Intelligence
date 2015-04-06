@@ -23,4 +23,12 @@ Files edited:
 Files edited:
 * `multiAgents.py`
 
+### Project 3
+* Value iteration offline planning agent
+* Policy calculation and parameters
+
+Files edited:
+* `valueIterationAgents.py`
+* `analysis.py`
+
 Useful commands can be found under `Project xx\commands.txt`
