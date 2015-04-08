@@ -26,9 +26,13 @@ Files edited:
 ### Project 3
 * Value iteration offline planning agent
 * Policy calculation and parameters
+* Q-Learning
+* Epsilon greedy (q-learning)
+* Approximate q-learning and state abstraction
 
 Files edited:
-* `valueIterationAgents.py`
 * `analysis.py`
+* `qlearningAgents.py`
+* `valueIterationAgents.py`
 
 Useful commands can be found under `Project xx\commands.txt`
