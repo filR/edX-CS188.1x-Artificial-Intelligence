@@ -29,6 +29,7 @@ Files edited:
 * Q-Learning
 * Epsilon greedy (q-learning)
 * Approximate q-learning and state abstraction
+* Approximate q-learning with features and weights
 
 Files edited:
 * `analysis.py`
